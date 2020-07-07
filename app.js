@@ -41,6 +41,7 @@ function login(event){
         const token = result.token
         localStorage.setItem('token', token)
         errorMessage.textContent = ""
+        hideLogin()
     })
     .catch(error => {
         errorMessage.textContent = error.message
@@ -79,6 +80,7 @@ function signup(event){
         const token = result.token
         localStorage.setItem('token', token)
         errorMessage.textContent = ""
+        hideSignup()
     })
     .catch(error => {
         errorMessage.textContent = error.message
