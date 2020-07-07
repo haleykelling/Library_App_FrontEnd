@@ -10,17 +10,20 @@
 <body>
     <header>
         <h1>Welcome to the Social Reader</h1>
-        <nav></nav>
+        <nav>
+            <button id='logout' type='button'>Logout</button>
+        </nav>
     </header>
     <main>
         <section class='user'>
+            <p id='error-message'></p>
             <form class='login-form'>
                 <label>Username:</label>
                 <input type='text' name='username'>
                 <label>Password:</label>
                 <input type='password' name='password'>
                 <input type='submit' value='Login'>
-                <p>New user? Click <button id='show-signup'>here</button> to sign up!</p>
+                <p>New user? Click <button id='show-signup' type='button'>here</button> to sign up!</p>
             </form>
             <form class='signup-form hidden'>
                 <label>Username:</label>
