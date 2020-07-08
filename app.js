@@ -2,6 +2,7 @@ const baseURL = 'http://localhost:3000'
 const usersURL = `${baseURL}/users`
 const loginURL = `${baseURL}/login`
 const bookSearchURL = `${baseURL}/book_search`
+const saveBookURL = `${baseURL}/save_book`
 
 const logoutButton = document.querySelector('#logout')
 const errorMessage = document.querySelector('#error-message')
@@ -118,17 +119,18 @@ function hideLogin(){
     loginForm.classList.add('hidden')
 }
 
-fetch(`${bookSearchURL}?search="Popular books 2020"`)
+fetch(`${bookSearchURL}?search="Good Summer Reads 2020"`)
     .then(response => response.json())
     .then(result => {
-        renderBooks(result.data.attributes.book_search_20_results)
+        console.log(result)
+        renderBooks(result.data.attributes.book_search_results)
     })
 
 function renderBooks(books){
     books.forEach(book => {
         console.log(book)
         const bookLi = document.createElement('li')
-        bookLi.id = book.isbn_10
+        bookLi.id = book.isbn_13
         const bookCard = document.createElement('div')
         
         showTitle(book.title, bookCard)
@@ -153,10 +155,9 @@ function showTitle(title, bookCard){
 }
 
 function showAuthors(authors, bookCard){
-    const authorString = authors.join()
     const p = document.createElement('p')
     p.class = 'authors'
-    p.textContent = `Authors: ${authorString}`
+    p.textContent = `Authors: ${authors}`
     bookCard.append(p)
 }
 
@@ -168,20 +169,19 @@ function showPublishedDate(publishedDate, bookCard){
 }
 
 function showPageCount(pageCount, bookCard){
-    const p = document.createElement('p')
-    p.class = 'page-count'
-    p.textContent = `${pageCount} Pages`
-    bookCard.append(p)
+    if (pageCount != null){
+        const p = document.createElement('p')
+        p.class = 'page-count'
+        p.textContent = `${pageCount} Pages`
+        bookCard.append(p)
+    }
 }
 
 function showCategories(categories, bookCard){
-    if (categories){
-        const categoriesString = categories.join()
-        const p = document.createElement('p')
-        p.class = 'categories'
-        p.textContent = categoriesString
-        bookCard.append(p)
-    }
+    const p = document.createElement('p')
+    p.class = 'categories'
+    p.textContent = categories
+    bookCard.append(p)
 }
 
 function showDescription(description, bookCard){
@@ -205,6 +205,19 @@ function saveButton(book, bookCard){
     saveBookButton.textContent = 'Save to your Bookshelf'
     
     //event listener here, pass book object
-    
+    saveBookButton.addEventListener('click', () => {
+        saveBook(book)
+    })
     bookCard.append(saveBookButton)
+}
+
+function saveBook(book){
+    fetch(saveBookURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(book)
+    })
 }
