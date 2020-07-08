@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="app.css">
-    <script src="show.js" defer></script>
+    <script src="search.js" defer></script>
     <title>Social Reader</title>
 </head>
 <body>
     <header>
         <h1 id='bookshelf-title'></h1>
         <nav>
-            <button id='search-books-button' type='button'>Search for More Books</button>
+            <button id='saved-books-button' type='button'>My Bookshelves</button>
             <button id='logout-button' type='button'>Logout</button>
         </nav>
     </header>
     <main>
-        <ul class='to-read'><h2 id='to-read-header'>To Read</h2></ul>
-        <ul class='reading'><h2 id='reading-header'>Reading</h2></ul>
-        <ul class='previously-read'><h2 id='previously-read-header'>Previously Read</h2></ul>
+        <section class='books'>
+            <ul class='book-list'></ul>
+        </section>
     </main>
+    
 </body>
 </html>
