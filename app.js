@@ -4,17 +4,19 @@ const loginURL = `${baseURL}/login`
 const bookSearchURL = `${baseURL}/book_search`
 const saveBookURL = `${baseURL}/save_book`
 
-const logoutButton = document.querySelector('#logout')
 const errorMessage = document.querySelector('#error-message')
 const loginForm = document.querySelector('.login-form')
 const signupForm = document.querySelector('.signup-form')
 const showSignupButton = document.querySelector('#show-signup')
+const savedBooksButton = document.querySelector('#saved-books-button')
+const logoutButton = document.querySelector('#logout-button')
 const bookList = document.querySelector('.book-list')
 
-logoutButton.addEventListener('click', logout)
 loginForm.addEventListener('submit', login)
 signupForm.addEventListener('submit', signup)
 showSignupButton.addEventListener('click', showSignup)
+logoutButton.addEventListener('click', logout)
+savedBooksButton.addEventListener('click', savedBooksPage)
 
 function login(event){
     event.preventDefault()
@@ -41,10 +43,12 @@ function login(event){
         return response.json()
     })
     .then(result => {
-        const token = result.token
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', result.token)
+        localStorage.setItem('name', result.name)
         errorMessage.textContent = ""
         hideLogin()
+        showLogoutButton()
+        showSavedBooksButton()
         bookList.classList.remove('hidden')
 
     })
@@ -86,6 +90,8 @@ function signup(event){
         localStorage.setItem('token', token)
         errorMessage.textContent = ""
         hideSignup()
+        showLogoutButton()
+        showSavedBooksButton()
         bookList.classList.remove('hidden')
     })
     .catch(error => {
@@ -99,6 +105,8 @@ function logout(){
     localStorage.clear()
     bookList.classList.add('hidden')
     showLogin()
+    hideLogoutButton()
+    hideSavedBooksButton()
 }
 
 function showSignup(){
@@ -119,16 +127,34 @@ function hideLogin(){
     loginForm.classList.add('hidden')
 }
 
+function showLogoutButton(){
+    logoutButton.classList.remove('hidden')
+}
+
+function hideLogoutButton(){
+    logoutButton.classList.add('hidden')
+}
+
+function showSavedBooksButton(){
+    savedBooksButton.classList.remove('hidden')
+}
+
+function hideSavedBooksButton(){
+    savedBooksButton.classList.add('hidden')
+}
+
+function savedBooksPage(){
+    window.location = 'show.html'
+}
+
 fetch(`${bookSearchURL}?search="Good Summer Reads 2020"`)
     .then(response => response.json())
     .then(result => {
-        console.log(result)
         renderBooks(result.data.attributes.book_search_results)
     })
 
 function renderBooks(books){
     books.forEach(book => {
-        console.log(book)
         const bookLi = document.createElement('li')
         bookLi.id = book.isbn_13
         const bookCard = document.createElement('div')
@@ -220,4 +246,6 @@ function saveBook(book){
         },
         body: JSON.stringify(book)
     })
+        .then(response => response.json())
+        .then(console.log)
 }
