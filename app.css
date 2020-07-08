@@ -1,7 +1,112 @@
-.hidden {
-    display: none;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;700&display=swap');
+
+font-family: 'Playfair Display', serif;
+font-family: 'Raleway', sans-serif;
+
+* {
+    box-sizing: border-box;
 }
+
+body {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    background-image: url(images/flowers-with-books.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 80px;
+    grid-template-areas: ". . head";
+    align-items: end;
+    justify-items: center;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 0.07rem;
+    grid-area: head;
+    color: hsl(191, 28%, 24%);
+}
+
 
 #error-message {
     color: red;
+}
+
+.user {
+    display: grid;
+    grid-template-columns: 60% auto;
+    grid-template-rows: 30% auto 30%;
+    grid-template-areas: 
+    ". ."
+    ". main"
+    ". .";
+}
+
+.login-form, .signup-form {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    width: 18em;
+    height: 18em;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    padding: 0.5em;
+    background-color: hsl(171, 14%, 72%);
+    border-radius: 0.5rem;
+    font-size: 20px;
+    color: hsl(309, 17%, 24%);
+    opacity: 90%;
+    box-shadow: 0 0 3px hsl(191, 28%, 24%);
+}
+
+.form-inputs label {
+    font-size: 22px;
+    margin-right: 0.5rem;
+}
+
+.form-inputs input {
+    font-size: 18px;
+    font-family: 'Raleway', sans-serif;
+    color: hsl(309, 17%, 24%);
+    background-color: hsl(175, 42%, 97%);
+    border-style: none;
+    border-radius: 0.2rem;
+}
+
+#login-button, #signup-button {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    color: hsl(309, 17%, 24%);
+    background-color: hsl(175, 42%, 97%);
+    padding: 0.7em;
+    border-radius: 0.6em;
+    border-style: none;
+    box-shadow: 1px 1px 1px hsl(191, 28%, 24%);
+    cursor: pointer; 
+}
+
+#show-signup, #show-login{
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    color: hsl(309, 17%, 24%);
+    background-color: hsl(175, 42%, 97%);
+    padding: 0.3rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-radius: 0.5rem;
+    border-style: none;
+    box-shadow: 1px 1px 1px hsl(191, 28%, 24%);
+    cursor: pointer; 
+}
+
+
+.hidden {
+    display: none;
 }
