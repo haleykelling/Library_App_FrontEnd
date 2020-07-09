@@ -10,14 +10,15 @@ body {
     background-image: url(images/plain-background.jpg);
     background-size: cover;
     background-attachment: fixed;
+    color: hsl(309, 17%, 24%);
 }
 
 header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 80px;
+    grid-template-rows: 120px;
     grid-template-areas: "head . nav";
-    align-items: end;
+    align-items: center;
     justify-items: center;
 }
 
@@ -32,4 +33,112 @@ h1 {
 
 nav {
     grid-area: nav;
+    justify-self: end;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-right: 3rem;
+}
+
+nav button {
+    margin-top: 0.8rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    color: hsl(175, 42%, 99%);
+    background-color: hsl(309, 17%, 24%);
+    padding: 0.3rem;
+    padding-left: 0.6rem;
+    padding-right: 0.5rem;
+    border-radius: 0.2rem;
+    border-style: none;
+    box-shadow: 1px 1px 1px hsl(191, 28%, 24%);
+    cursor: pointer; 
+}
+
+.to-read-header-container, .reading-header-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 80px;
+    grid-template-areas: "head . . .";
+    align-items: end;
+    justify-items: center;
+}
+
+.previously-read-header-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 80px;
+    grid-template-areas: "head . .";
+    align-items: end;
+    justify-items: center;
+}
+
+#to-read-header, #reading-header, #previously-read-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.07rem;
+    grid-area: head;
+}
+
+.to-read, .reading, .previously-read {
+    display: flex;
+    overflow-x: hidden;
+    overflow-x: scroll;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    padding: 1rem;
+}
+
+.previously-read {
+    margin-bottom: 5rem;
+}
+
+.to-read-card, .reading-card, .previously-read-card {
+    width: 270px;
+    height: 425px;
+    margin: 1.5rem;
+    margin-right: 3rem;
+    margin-left: 0;
+    padding: 0.5rem;
+    color: hsl(309, 17%, 24%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: hsl(190, 30%, 97%);
+    box-shadow: 1px 1px 3px hsl(191, 14%, 44%);
+    border-radius: 0.2rem;
+}
+
+.book-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.05rem;
+    text-align: center;
+    line-height: 1.5rem;
+}
+
+.image {
+    width: 150px;
+    filter: grayscale(40%);
+    opacity: 0.9;
+}
+
+div button {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    color: hsl(191, 28%, 14%);
+    background-color: hsl(171, 14%, 72%);
+    padding: 0.3rem;
+    padding-left: 0.6rem;
+    padding-right: 0.5rem;
+    border-radius: 0.2rem;
+    border-style: none;
+    box-shadow: 1px 1px 2px hsl(191, 28%, 24%);
+    cursor: pointer; 
+}
+
+.hidden{
+    display: none;
 }

@@ -16,9 +16,9 @@ body {
 header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 80px;
+    grid-template-rows: 120px;
     grid-template-areas: "head . nav";
-    align-items: end;
+    align-items: center;
     justify-items: center;
 }
 
@@ -46,7 +46,7 @@ nav button{
 .search {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 80px;
+    grid-template-rows: 70px;
     grid-template-areas: ". search .";
     align-items: end;
     justify-items: center;
@@ -54,7 +54,6 @@ nav button{
 
 .search-form {
     grid-area: search;
-    
 }
 
 #general-search {
@@ -87,7 +86,7 @@ nav button{
 .book-list {
     display: flex;
     flex-wrap: wrap;
-    margin: 5rem;
+    margin: 4.2rem;
     justify-content: space-evenly;
 }
 
@@ -122,8 +121,8 @@ nav button{
 
 .image {
     width: 180px;
-    filter: grayscale(60%);
-    opacity: 0.8;
+    filter: grayscale(40%);
+    opacity: 0.9;
 }
 
 
