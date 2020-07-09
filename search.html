@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="search.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script>
     <script src="search.js" defer></script>
     <title>Social Reader</title>
 </head>
 <body>
     <header>
-        <h1 id='bookshelf-title'></h1>
+        <h1>Social Reader</h1>
         <nav>
             <button id='saved-books-button' type='button'>My Bookshelves</button>
             <button id='logout-button' type='button'>Logout</button>
@@ -18,10 +19,8 @@
     </header>
     <main>
         <section class='search'>
-            <p id='error-message' class='hidden'></p>
             <form class='search-form'>
-                <label for='general-search'>General Search:</label>
-                <input type='text' id='general-search' name='search'>
+                <input type='text' id='general-search' name='search' placeholder='Search for More Books'>
                 <input type='submit' value='Search'>
             </form>
         </section>

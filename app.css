@@ -19,7 +19,7 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 80px;
-    grid-template-areas: ". . head";
+    grid-template-areas: "head . .";
     align-items: end;
     justify-items: center;
 }

@@ -12,14 +12,23 @@
     <header>
         <h1 id='bookshelf-title'></h1>
         <nav>
-            <button id='search-books-button' type='button'>Search for More Books</button>
             <button id='logout-button' type='button'>Logout</button>
+            <button id='search-books-button' type='button'>Search for More Books</button>
         </nav>
     </header>
     <main>
-        <ul class='to-read'><h2 id='to-read-header'>To Read</h2></ul>
-        <ul class='reading'><h2 id='reading-header'>Reading</h2></ul>
-        <ul class='previously-read'><h2 id='previously-read-header'>Previously Read</h2></ul>
+        <div class='to-read-header-container'>
+            <h2 id='to-read-header'>To Read</h2>
+        </div>    
+        <ul class='to-read'></ul>
+        <div class='reading-header-container'>
+            <h2 id='reading-header'>Reading</h2>
+        </div>    
+        <ul class='reading'></ul>
+        <div class='previously-read-header-container'>
+            <h2 id='previously-read-header'>Previously Read</h2>
+        </div>    
+        <ul class='previously-read'></ul>
     </main>
 </body>
 </html>
