@@ -58,6 +58,7 @@ function renderBooks(books){
     books.forEach(book => {
         const bookLi = document.createElement('li')
         bookLi.id = book.isbn_13
+        bookLi.classList.add('book-list-item')
         const bookCard = document.createElement('div')
         
         showTitle(book.title, bookCard)
@@ -65,8 +66,8 @@ function renderBooks(books){
         showPublishedDate(book.published_date, bookCard)
         showPageCount(book.page_count, bookCard)
         showCategories(book.categories, bookCard)
-        showDescription(book.description, bookCard)
         showImage(book.image_link, bookCard)
+        showDescription(book.description, bookCard)
         saveButton(book, bookCard)
         
         bookLi.append(bookCard)
@@ -76,21 +77,22 @@ function renderBooks(books){
 
 function showTitle(title, bookCard){
     const h2 = document.createElement('h2')
-    h2.class = 'book-title'
+    h2.classList.add('book-title')
     h2.textContent = title 
     bookCard.append(h2)
 }
 
 function showAuthors(authors, bookCard){
     const p = document.createElement('p')
-    p.class = 'authors'
-    p.textContent = `Authors: ${authors}`
+    p.classList.add('authors')
+    p.textContent = `By: ${authors}`
     bookCard.append(p)
 }
 
 function showPublishedDate(publishedDate, bookCard){
     const p = document.createElement('p')
-    p.class = 'published-date'
+    p.classList.add('published-date')
+    p.classList.add('hidden')
     p.textContent = `Published: ${publishedDate}`
     bookCard.append(p)
 }
@@ -98,7 +100,8 @@ function showPublishedDate(publishedDate, bookCard){
 function showPageCount(pageCount, bookCard){
     if (pageCount != null){
         const p = document.createElement('p')
-        p.class = 'page-count'
+        p.classList.add('page-count')
+        p.classList.add('hidden')
         p.textContent = `${pageCount} Pages`
         bookCard.append(p)
     }
@@ -106,14 +109,15 @@ function showPageCount(pageCount, bookCard){
 
 function showCategories(categories, bookCard){
     const p = document.createElement('p')
-    p.class = 'categories'
+    p.classList.add('categories')
+    p.classList.add('hidden')
     p.textContent = categories
     bookCard.append(p)
 }
 
 function showDescription(description, bookCard){
     const p = document.createElement('p')
-    p.class = 'description'
+    p.classList.add('description')
     p.textContent = description
     bookCard.append(p)
 }
@@ -121,15 +125,16 @@ function showDescription(description, bookCard){
 
 function showImage(imageLink, bookCard){
     const image = document.createElement('img')
-    image.class = 'image'
+    image.classList.add('image')
     image.src = imageLink
     bookCard.append(image)
 }
 
 function saveButton(book, bookCard){
     const saveBookButton = document.createElement('button')
+    saveBookButton.classList.add('save-book-button')
     saveBookButton.type = 'button'
-    saveBookButton.textContent = 'Save to your Bookshelf'
+    saveBookButton.textContent = 'Save Book'
     saveBookButton.addEventListener('click', () => {
         saveBook(book)
     })

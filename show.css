@@ -1,3 +1,33 @@
 * {
     box-sizing: border-box;
 }
+
+body {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    background-image: url(images/plain-background.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 80px;
+    grid-template-areas: "head . nav";
+    align-items: end;
+    justify-items: center;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 0.07rem;
+    grid-area: head;
+    color: hsl(191, 28%, 24%);
+}
+
+nav {
+    grid-area: nav;
+}
