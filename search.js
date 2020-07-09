@@ -58,8 +58,8 @@ function renderBooks(books){
     books.forEach(book => {
         const bookLi = document.createElement('li')
         bookLi.id = book.isbn_13
-        bookLi.classList.add('book-list-item')
         const bookCard = document.createElement('div')
+        bookCard.classList.add('book-card')
         
         showTitle(book.title, bookCard)
         showAuthors(book.authors, bookCard)
@@ -85,7 +85,7 @@ function showTitle(title, bookCard){
 function showAuthors(authors, bookCard){
     const p = document.createElement('p')
     p.classList.add('authors')
-    p.textContent = `By: ${authors}`
+    p.textContent = authors
     bookCard.append(p)
 }
 
@@ -118,6 +118,7 @@ function showCategories(categories, bookCard){
 function showDescription(description, bookCard){
     const p = document.createElement('p')
     p.classList.add('description')
+    p.classList.add('hidden')
     p.textContent = description
     bookCard.append(p)
 }
@@ -127,21 +128,69 @@ function showImage(imageLink, bookCard){
     const image = document.createElement('img')
     image.classList.add('image')
     image.src = imageLink
+
+    image.addEventListener('click', showMoreInfo)
+
     bookCard.append(image)
+}
+
+function showMoreInfo(event){
+    const image = event.target
+    const bookCard = event.target.parentNode
+    
+    image.classList.add('hidden')
+    bookCard.classList.add('expand-card')
+    bookCard.querySelector('.save-book-button').classList.add('hidden')
+    bookCard.querySelector('.published-date').classList.remove('hidden')
+    bookCard.querySelector('.categories').classList.remove('hidden')
+    bookCard.querySelector('.description').classList.remove('hidden')
+    
+    const pageCount = bookCard.querySelector('.page-count')
+    if (pageCount){
+        pageCount.classList.remove('hidden')
+    }
+    addCollapseButton(image, bookCard)  
+}
+
+function addCollapseButton(image, bookCard){
+    const collapseButton = document.createElement('button')
+    collapseButton.type = 'button'
+    collapseButton.textContent = 'Close'
+    
+    collapseButton.addEventListener('click', event => closePopupScreen(event, bookCard, image))
+
+    bookCard.append(collapseButton)
+}
+
+function closePopupScreen(event, bookCard, image){
+    event.target.remove()
+    bookCard.classList.remove('expand-card')
+    image.classList.remove('hidden')
+    bookCard.querySelector('.save-book-button').classList.remove('hidden')
+    bookCard.querySelector('.published-date').classList.add('hidden')
+    bookCard.querySelector('.categories').classList.add('hidden')
+    bookCard.querySelector('.description').classList.add('hidden')
+    
+    const pageCount = bookCard.querySelector('.page-count')
+    if (pageCount){
+        pageCount.classList.add('hidden')
+    }
 }
 
 function saveButton(book, bookCard){
     const saveBookButton = document.createElement('button')
     saveBookButton.classList.add('save-book-button')
     saveBookButton.type = 'button'
-    saveBookButton.textContent = 'Save Book'
-    saveBookButton.addEventListener('click', () => {
-        saveBook(book)
+    saveBookButton.innerHTML = `<i class="far fa-heart"></i>`
+    saveBookButton.addEventListener('click', event => {
+        saveBook(book, event)
     })
     bookCard.append(saveBookButton)
 }
 
-function saveBook(book){
+function saveBook(book, event){
+    event.target.innerHTML = `<i class="fas fa-heart"></i>`
+    
     fetch(saveBookURL, {
         method: 'POST',
         headers: {
