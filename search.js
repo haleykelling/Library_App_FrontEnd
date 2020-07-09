@@ -4,10 +4,19 @@ const saveBookURL = `${baseURL}/save_book`
 
 const savedBooksButton = document.querySelector('#saved-books-button')
 const logoutButton = document.querySelector('#logout-button')
+const errorMessage = document.querySelector('#error-message')
+const searchForm = document.querySelector('.search-form')
 const bookList = document.querySelector('.book-list')
 
 logoutButton.addEventListener('click', logout)
 savedBooksButton.addEventListener('click', savedBooksPage)
+searchForm.addEventListener('submit', searchBooks)
+
+fetch(`${bookSearchURL}?search="Good Summer Reads 2020"`)
+    .then(response => response.json())
+    .then(result => {
+        renderBooks(result.data.attributes.book_search_results)
+    })
 
 function logout(){
     localStorage.clear()
@@ -18,11 +27,32 @@ function savedBooksPage(){
     window.location = 'show.html'
 }
 
-fetch(`${bookSearchURL}?search="Good Summer Reads 2020"`)
+function searchBooks(event){
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const search = formData.get('search')
+  
+    fetch(`${bookSearchURL}?search=${search}`)
+        .then(response => response.json())
+        .then(result => {
+            removeCurrentBookList()
+            renderBooks(result.data.attributes.book_search_results)
+        })
+}
+
+function removeCurrentBookList(){
+    const allBookListItems = document.querySelectorAll('.book-list li')
+    allBookListItems.forEach(item => item.remove())
+}
+
+function sendSearchRequest(url){
+    fetch(url)
     .then(response => response.json())
     .then(result => {
+        console.log(result)
         renderBooks(result.data.attributes.book_search_results)
     })
+}
 
 function renderBooks(books){
     books.forEach(book => {

@@ -1,5 +1,6 @@
 const baseURL = 'http://localhost:3000' 
 const bookshelvesURL = `${baseURL}/bookshelves`
+const savedBooksURL = `${baseURL}/saved_books`
 
 const userName = localStorage.getItem('name')
 const bookshelfTitle = document.querySelector('#bookshelf-title')
@@ -51,7 +52,7 @@ function renderBooks(bookshelfItems, listName){
         showDescription(bookshelfItem.book.description, bookCard)
         showImage(bookshelfItem.book.image_link, bookCard)
         deleteButton(bookshelfItem.id, bookCard)
-        changeBookshelfButton(bookshelfItem.id, bookCard)
+        changeBookshelfButton(bookshelfItem.id, bookCard, listName)
         
         bookLi.append(bookCard)
         listName.append(bookLi)
@@ -102,7 +103,6 @@ function showDescription(description, bookCard){
     bookCard.append(p)
 }
 
-
 function showImage(imageLink, bookCard){
     const image = document.createElement('img')
     image.classList.add('image')
@@ -111,9 +111,115 @@ function showImage(imageLink, bookCard){
 }
 
 function deleteButton(id, bookCard){
-
+    const deleteFromBookshelfButton = document.createElement('button')
+    deleteFromBookshelfButton.type = 'button'
+    deleteFromBookshelfButton.textContent = 'Delete'
+    
+    deleteFromBookshelfButton.addEventListener('click', () => deleteFromBookshelf(bookCard, id))
+    
+    bookCard.append(deleteFromBookshelfButton)
 }
 
-function changeBookshelfButton(id, bookCard){
+function deleteFromBookshelf(bookCard, id){
+    bookCard.remove()
+    fetch(`${savedBooksURL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+        .then(response => response.json())
+        .then(console.log)
+}
 
+function changeBookshelfButton(id, bookCard, listName){
+    if (listName === toReadList){
+        addToReadingButton(id, bookCard)
+        addToPreviouslyReadButton(id, bookCard)
+    } else if (listName === readingList){
+        addToToReadButton(id, bookCard)
+        addToPreviouslyReadButton(id, bookCard)
+    } else if (listName === previouslyReadList){
+        addToToReadButton(id, bookCard)
+        addToReadingButton(id, bookCard)
+    }
+}
+
+function addToToReadButton(id, bookCard){
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.textContent = "To Read"
+
+    button.addEventListener('click', () => moveToToRead(id, bookCard))
+
+    bookCard.append(button)
+}
+
+function addToReadingButton(id, bookCard){
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.textContent = "Reading"
+    
+    button.addEventListener('click', () => moveToReading(id, bookCard))
+    
+    bookCard.append(button)
+}
+
+function addToPreviouslyReadButton(id, bookCard){
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.textContent = "Previously Read"
+    
+    button.addEventListener('click', () => moveToPreviouslyRead(id, bookCard))
+    
+    bookCard.append(button)
+}
+
+function moveToToRead(id, bookCard){
+    bookCard.remove()
+    toReadList.append(bookCard)
+    
+    fetch(`${savedBooksURL}/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({bookshelf: 1})
+    })
+    .then(response => response.json())
+    .then(console.log)
+}
+
+function moveToReading(id, bookCard){
+    bookCard.remove()
+    readingList.append(bookCard)
+    
+    fetch(`${savedBooksURL}/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({bookshelf: 2})
+    })
+    .then(response => response.json())
+    .then(console.log)
+}
+
+function moveToPreviouslyRead(id, bookCard){
+    bookCard.remove()
+    toReadList.append(bookCard)
+
+    fetch(`${savedBooksURL}/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({bookshelf: 3})
+    })
+    .then(response => response.json())
+    .then(console.log)
 }
