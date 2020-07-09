@@ -3,35 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="app.css">
     <script src="app.js" defer></script>
     <title>Social Reader</title>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Social Reader</h1>
+        <h1>Social Reader</h1>
     </header>
     <main>
         <section class='user'>
             <p id='error-message'></p>
             <form class='login-form'>
-                <label>Username:</label>
-                <input type='text' name='username'>
-                <label>Password:</label>
-                <input type='password' name='password'>
-                <input type='submit' value='Login'>
+                <div class='form-inputs'>
+                    <label>Username:</label>
+                    <input type='text' name='username'>
+                </div>
+                <div class='form-inputs'>
+                    <label>Password:</label>
+                    <input type='password' name='password'>
+                </div>
+                <input type='submit' id='login-button' value='Login'>
                 <p>New user? Click <button id='show-signup' type='button'>here</button> to sign up!</p>
             </form>
             <form class='signup-form hidden'>
-                <label>Username:</label>
-                <input type='text' name='username'>
-                <label>First Name:</label>
-                <input type='text' name='first-name'>
-                <label>Last Name:</label>
-                <input type='text' name='last-name'>
-                <label>Password:</label>
-                <input type='password' name='password'>
-                <input type='submit' value='Sign Up'>
+                <div class='form-inputs'>
+                    <label>First Name:</label>
+                    <input type='text' name='first-name'>
+                </div>
+                <div class='form-inputs'>
+                    <label>Last Name:</label>
+                    <input type='text' name='last-name'>
+                </div>                
+                <div class='form-inputs'>
+                    <label>Username:</label>
+                    <input type='text' name='username'>
+                </div>
+                <div class='form-inputs'>
+                    <label>Password:</label>
+                    <input type='password' name='password'>
+                </div>
+                <input type='submit' id='signup-button' value='Sign Up'>
                 <button id='show-login' type='button'>Back to Login</button>
             </form>
         </section>
