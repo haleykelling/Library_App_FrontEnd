@@ -5,25 +5,32 @@ const savedBooksURL = `${baseURL}/saved_books`
 const userName = localStorage.getItem('name')
 const bookshelfTitle = document.querySelector('#bookshelf-title')
 const searchBooksButton = document.querySelector('#search-books-button')
+const friendBooksButton = document.querySelector('#friend-books-button')
 const logoutButton = document.querySelector('#logout-button')
 const toReadList = document.querySelector('.to-read')
 const readingList = document.querySelector('.reading')
 const previouslyReadList = document.querySelector('.previously-read')
 
-logoutButton.addEventListener('click', logout)
 searchBooksButton.addEventListener('click', searchBooksPage)
+friendBooksButton.addEventListener('click', friendBooksPage)
+logoutButton.addEventListener('click', logout)
 
 
 bookshelfTitle.textContent = `${userName}'s Bookshelves`
+
+function searchBooksPage(){
+    window.location = 'search.html'
+}
+
+function friendBooksPage(){
+    window.location = 'friend.html'
+}
 
 function logout(){
     localStorage.clear()
     window.location = 'index.html'
 }
 
-function searchBooksPage(){
-    window.location = 'search.html'
-}
 
 fetch(bookshelvesURL, {
     headers: {

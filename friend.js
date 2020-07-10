@@ -1,100 +1,73 @@
 const baseURL = 'http://localhost:3000' 
-const bookSearchURL = `${baseURL}/book_search`
-const titleSearchURL = `${baseURL}/title_search`
-const authorSearchURL = `${baseURL}/author_search`
+const friendsURL = `${baseURL}/friends`
 const saveBookURL = `${baseURL}/save_book`
 
-const savedBooksButton = document.querySelector('#saved-books-button')
+
+const searchBooksButton = document.querySelector('#search-books-button')
+const myBookshelvesPageButton = document.querySelector('#my-bookshelves-button')
 const logoutButton = document.querySelector('#logout-button')
-const errorMessage = document.querySelector('#error-message')
-const seeSearchFormButton = document.querySelector('#see-search-form')
-const searchForm = document.querySelector('.search-form')
-const bookList = document.querySelector('.book-list')
+const toReadList = document.querySelector('.to-read')
+const readingList = document.querySelector('.reading')
+const previouslyReadList = document.querySelector('.previously-read')
 
+myBookshelvesPageButton.addEventListener('click', myBookshelvesPage)
+searchBooksButton.addEventListener('click', searchBooksPage)
 logoutButton.addEventListener('click', logout)
-savedBooksButton.addEventListener('click', savedBooksPage)
-seeSearchFormButton.addEventListener('click', showSearchForm)
-searchForm.addEventListener('submit', searchBooks)
 
-fetch(`${bookSearchURL}?search="Good Summer Reads 2020"`)
-    .then(response => response.json())
-    .then(result => {
-        renderBooks(result.data.attributes.book_search_results)
-    })
 
 function logout(){
     localStorage.clear()
     window.location = 'index.html'
 }
 
-function savedBooksPage(){
+function myBookshelvesPage(){
     window.location = 'show.html'
 }
 
-function showSearchForm(){
-    searchForm.classList.remove('hidden')
-    seeSearchFormButton.classList.add('hidden')
+function searchBooksPage(){
+    window.location = 'search.html'
 }
 
-function searchBooks(event){
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    const search = formData.get('search')
-    const titleSearch = formData.get('title-search')
-    const authorSearch = formData.get('author-search')
-    
-    if (search != ""){
-        sendSearchRequest(bookSearchURL, search)
-    }else if (titleSearch != ""){
-        sendSearchRequest(titleSearchURL, titleSearch)
-    }else if (authorSearch != ""){
-        sendSearchRequest(authorSearchURL, authorSearch)
+fetch(friendsURL, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
-}
-
-function removeCurrentBookList(){
-    const allBookListItems = document.querySelectorAll('.book-list li')
-    allBookListItems.forEach(item => item.remove())
-}
-
-function sendSearchRequest(url, params){
-    fetch(`${url}?search=${params}`)
+})
     .then(response => response.json())
     .then(result => {
-        removeCurrentBookList()
-        searchForm.reset()
-        searchForm.classList.add('hidden')
-        seeSearchFormButton.classList.remove('hidden')
-        renderBooks(result.data.attributes.book_search_results)
+        renderBooks(result.to_read, toReadList, 'to-read-card')
+        renderBooks(result.reading, readingList, 'reading-card')
+        renderBooks(result.previously_read, previouslyReadList, 'previously-read-card')
     })
-}
 
-function renderBooks(books){
-    books.forEach(book => {
+function renderBooks(bookshelfItems, listName, className){
+    bookshelfItems.forEach(bookshelfItem => {
         const bookLi = document.createElement('li')
-        bookLi.id = book.isbn_13
+        bookLi.id = bookshelfItem.book.isbn_13
         const bookCard = document.createElement('div')
-        bookCard.classList.add('book-card')
+        bookCard.classList.add(className)
         
-        showTitle(book.title, bookCard)
-        showAuthors(book.authors, bookCard)
-        showPublishedDate(book.published_date, bookCard)
-        showPageCount(book.page_count, bookCard)
-        showCategories(book.categories, bookCard)
-        showImage(book.image_link, bookCard)
-        showDescription(book.description, bookCard)
-        saveButton(book, bookCard)
+        showTitle(bookshelfItem.book.title, bookCard)
+        showAuthors(bookshelfItem.book.authors, bookCard)
+        showPublishedDate(bookshelfItem.book.published_date, bookCard)
+        showPageCount(bookshelfItem.book.page_count, bookCard)
+        showCategories(bookshelfItem.book.categories, bookCard)
+        showDescription(bookshelfItem.book.description, bookCard)
+        showImage(bookshelfItem.book.image_link, bookCard)
+        saveButton(bookshelfItem.book, bookCard)
+
         
         bookLi.append(bookCard)
-        bookList.append(bookLi)
+        listName.append(bookLi)
     })
 }
 
 function showTitle(title, bookCard){
-    const h2 = document.createElement('h2')
-    h2.classList.add('book-title')
-    h2.textContent = title 
-    bookCard.append(h2)
+    const h3 = document.createElement('h3')
+    h3.classList.add('book-title')
+    h3.textContent = title 
+    bookCard.append(h3)
 }
 
 function showAuthors(authors, bookCard){
@@ -137,7 +110,6 @@ function showDescription(description, bookCard){
     p.textContent = description
     bookCard.append(p)
 }
-
 
 function showImage(imageLink, bookCard){
     const image = document.createElement('img')
@@ -214,6 +186,4 @@ function saveBook(book, event){
         },
         body: JSON.stringify(book)
     })
-        .then(response => response.json())
-        .then(console.log)
 }

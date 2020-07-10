@@ -95,7 +95,7 @@ nav button {
 
 .to-read-card, .reading-card, .previously-read-card {
     width: 270px;
-    height: 425px;
+    height: 375px;
     margin: 1.5rem;
     margin-right: 3rem;
     margin-left: 0;
@@ -123,20 +123,55 @@ nav button {
     width: 150px;
     filter: grayscale(40%);
     opacity: 0.9;
+    cursor: pointer;
 }
 
-div button {
-    font-family: 'Raleway', sans-serif;
-    font-size: 16px;
-    color: hsl(191, 28%, 14%);
-    background-color: hsl(171, 14%, 72%);
-    padding: 0.3rem;
-    padding-left: 0.6rem;
-    padding-right: 0.5rem;
-    border-radius: 0.2rem;
+.authors {
+    text-align: center;
+}
+
+.save-book-button {
+    background: none;
     border-style: none;
-    box-shadow: 1px 1px 2px hsl(191, 28%, 24%);
-    cursor: pointer; 
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.save-book-button:active {
+    border-style: none;
+}
+
+.expand-card:after {
+    content: "";
+    display: block;
+    position: fixed; 
+    z-index: 10;
+}
+
+.expand-card {
+    width: 850px;
+    height: 600px;
+    position: fixed;
+    top: 12%; 
+    left: 20%;
+    background-color: hsl(171, 14%, 72%);
+    border-radius: 0.2rem;
+    opacity: 0.95;
+    text-align: center;
+    z-index: 11;
+}
+
+.expand-card .book-title {
+    font-size: 30px;
+}
+
+.expand-card p:not(.description) {
+    font-size: 20px;
+}
+
+.description {
+    font-size: 14px;
+    line-height: 1.3rem;
 }
 
 .hidden{

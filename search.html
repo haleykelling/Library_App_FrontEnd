@@ -19,8 +19,11 @@
     </header>
     <main>
         <section class='search'>
-            <form class='search-form'>
-                <input type='text' id='general-search' name='search' placeholder='Search for More Books'>
+            <button type='button' id='see-search-form'>Search for Books</button>
+            <form class='search-form hidden'>
+                <input type='text' id='general-search' name='search' placeholder='General Book Search'>
+                <input type='text' id='title-search' name='title-search' placeholder='Search by Title'>
+                <input type='text' id='author-search' name='author-search' placeholder='Search by Author'>
                 <input type='submit' value='Search'>
             </form>
         </section>
