@@ -59,14 +59,24 @@ function removeCurrentBookList(){
 
 function sendSearchRequest(url, params){
     fetch(`${url}?search=${params}`)
-    .then(response => response.json())
-    .then(result => {
-        removeCurrentBookList()
-        searchForm.reset()
-        searchForm.classList.add('hidden')
-        seeSearchFormButton.classList.remove('hidden')
-        renderBooks(result.data.attributes.book_search_results)
-    })
+        .then(response => {
+            if(!response.ok){
+                return response.json().then(parsedResponse => {
+                    throw new Error(parsedResponse.error)
+                })
+            }
+            return response.json()
+        })
+        .then(result => {
+            removeCurrentBookList()
+            searchForm.reset()
+            searchForm.classList.add('hidden')
+            seeSearchFormButton.classList.remove('hidden')
+            renderBooks(result.data.attributes.book_search_results)
+        })
+        .catch(error => {
+            alert(error.message)
+        })
 }
 
 function renderBooks(books){
@@ -214,6 +224,14 @@ function saveBook(book, event){
         },
         body: JSON.stringify(book)
     })
-        .then(response => response.json())
-        .then(console.log)
+        .then(response => {
+            if(!response.ok){
+                return response.json().then(parsedResponse => {
+                    throw new Error(parsedResponse.error)
+                })
+            }
+        })
+        .catch(error => {
+            alert(error.message)
+        })
 }

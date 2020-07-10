@@ -34,11 +34,21 @@ fetch(friendsURL, {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
 })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok){
+            return response.json().then(parsedResponse => {
+                throw new Error(parsedResponse.error)
+            })
+        }
+        return response.json()
+    })
     .then(result => {
         renderBooks(result.to_read, toReadList, 'to-read-card')
         renderBooks(result.reading, readingList, 'reading-card')
         renderBooks(result.previously_read, previouslyReadList, 'previously-read-card')
+    })
+    .catch(error => {
+        alert(error.message)
     })
 
 function renderBooks(bookshelfItems, listName, className){
@@ -186,4 +196,14 @@ function saveBook(book, event){
         },
         body: JSON.stringify(book)
     })
+        .then(response => {
+            if (!response.ok){
+                return response.json().then(parsedResponse => {
+                    throw new Error(parsedResponse.error)
+                })
+            }
+        })
+        .catch(error => {
+            alert(error.message)
+        })
 }

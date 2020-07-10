@@ -38,11 +38,21 @@ fetch(bookshelvesURL, {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
 })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok){
+            return response.json().then(parsedResponse => {
+                throw new Error(parsedResponse.error)
+            })
+        }
+        return response.json()
+    })
     .then(result => {
         renderBooks(result.to_read, toReadList, 'to-read-card')
         renderBooks(result.reading, readingList, 'reading-card')
         renderBooks(result.previously_read, previouslyReadList, 'previously-read-card')
+    })
+    .catch(error => {
+        alert(error.message)
     })
 
 function renderBooks(bookshelfItems, listName, className){
@@ -54,10 +64,6 @@ function renderBooks(bookshelfItems, listName, className){
         
         showTitle(bookshelfItem.book.title, bookCard)
         showAuthors(bookshelfItem.book.authors, bookCard)
-        // showPublishedDate(bookshelfItem.book.published_date, bookCard)
-        // showPageCount(bookshelfItem.book.page_count, bookCard)
-        // showCategories(bookshelfItem.book.categories, bookCard)
-        // showDescription(bookshelfItem.book.description, bookCard)
         showImage(bookshelfItem.book.image_link, bookCard)
         deleteButton(bookshelfItem.id, bookCard)
         changeBookshelfButton(bookshelfItem.id, bookCard, listName)
@@ -81,37 +87,6 @@ function showAuthors(authors, bookCard){
     bookCard.append(p)
 }
 
-// function showPublishedDate(publishedDate, bookCard){
-//     const p = document.createElement('p')
-//     p.classList.add('published-date')
-//     p.textContent = `Published: ${publishedDate}`
-//     bookCard.append(p)
-// }
-
-// function showPageCount(pageCount, bookCard){
-//     if (pageCount != null){
-//         const p = document.createElement('p')
-//         p.classList.add('page-count')
-//         p.textContent = `${pageCount} Pages`
-//         bookCard.append(p)
-//     }
-// }
-
-// function showCategories(categories, bookCard){
-//     const p = document.createElement('p')
-//     p.classList.add('categories')
-//     p.textContent = categories
-//     bookCard.append(p)
-// }
-
-// function showDescription(description, bookCard){
-//     const p = document.createElement('p')
-//     p.classList.add('description')
-//     p.classList.add('hidden')
-//     p.textContent = description
-//     bookCard.append(p)
-// }
-
 function showImage(imageLink, bookCard){
     const image = document.createElement('img')
     image.classList.add('image')
@@ -131,6 +106,7 @@ function deleteButton(id, bookCard){
 
 function deleteFromBookshelf(bookCard, id){
     bookCard.remove()
+
     fetch(`${savedBooksURL}/${id}`, {
         method: 'DELETE',
         headers: {
@@ -138,8 +114,16 @@ function deleteFromBookshelf(bookCard, id){
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     })
-        .then(response => response.json())
-        .then(console.log)
+        .then(response => {
+            if (!response.ok){
+                return response.json().then(parsedResponse => {
+                    throw new Error(parsedResponse.error)
+                })
+            }
+        })
+        .catch(error => {
+            alert(error.message)
+        })
 }
 
 function changeBookshelfButton(id, bookCard, listName){
@@ -160,7 +144,7 @@ function addToToReadButton(id, bookCard){
     button.type = 'button'
     button.textContent = "To Read"
 
-    button.addEventListener('click', () => moveToToRead(id, bookCard))
+    button.addEventListener('click', () => moveBookshelf(id, bookCard, toReadList, '1'))
 
     bookCard.append(button)
 }
@@ -170,7 +154,7 @@ function addToReadingButton(id, bookCard){
     button.type = 'button'
     button.textContent = "Reading"
     
-    button.addEventListener('click', () => moveToReading(id, bookCard))
+    button.addEventListener('click', () => moveBookshelf(id, bookCard, readingList, '2'))
     
     bookCard.append(button)
 }
@@ -180,14 +164,14 @@ function addToPreviouslyReadButton(id, bookCard){
     button.type = 'button'
     button.textContent = "Previously Read"
     
-    button.addEventListener('click', () => moveToPreviouslyRead(id, bookCard))
+    button.addEventListener('click', () => moveBookshelf(id, bookCard, previouslyReadList, '3'))
     
     bookCard.append(button)
 }
 
-function moveToToRead(id, bookCard){
+function moveBookshelf(id, bookCard, list, bookshelfNumber){
     bookCard.remove()
-    toReadList.append(bookCard)
+    list.append(bookCard)
     
     fetch(`${savedBooksURL}/${id}`, {
         method: 'PATCH',
@@ -195,40 +179,16 @@ function moveToToRead(id, bookCard){
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({bookshelf: 1})
+        body: JSON.stringify({bookshelf: bookshelfNumber})
     })
-    .then(response => response.json())
-    .then(console.log)
-}
-
-function moveToReading(id, bookCard){
-    bookCard.remove()
-    readingList.append(bookCard)
-    
-    fetch(`${savedBooksURL}/${id}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({bookshelf: 2})
-    })
-    .then(response => response.json())
-    .then(console.log)
-}
-
-function moveToPreviouslyRead(id, bookCard){
-    bookCard.remove()
-    previouslyReadList.append(bookCard)
-
-    fetch(`${savedBooksURL}/${id}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({bookshelf: 3})
-    })
-    .then(response => response.json())
-    .then(console.log)
+        .then(response => {
+            if (!response.ok){
+                return response.json().then(parsedResponse => {
+                    throw new Error(parsedResponse.error)
+                })
+            }
+        })
+        .catch(error => {
+            alert(error.message)
+        })
 }

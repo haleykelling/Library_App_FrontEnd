@@ -2,7 +2,6 @@ const baseURL = 'http://localhost:3000'
 const usersURL = `${baseURL}/users`
 const loginURL = `${baseURL}/login`
 
-const errorMessage = document.querySelector('#error-message')
 const loginForm = document.querySelector('.login-form')
 const signupForm = document.querySelector('.signup-form')
 const showSignupButton = document.querySelector('#show-signup')
@@ -40,12 +39,11 @@ function login(event){
     .then(result => {
         localStorage.setItem('token', result.token)
         localStorage.setItem('name', result.name)
-        errorMessage.textContent = ""
         window.location = 'search.html'
 
     })
     .catch(error => {
-        errorMessage.textContent = error.message
+        alert(error.message)
     })
     
     event.target.reset()
@@ -80,12 +78,10 @@ function signup(event){
     .then(result => {
         const token = result.token
         localStorage.setItem('token', token)
-        errorMessage.textContent = ""
         window.location = 'search.html'
-
     })
     .catch(error => {
-        errorMessage.textContent = error.message
+        alert(error.message)
     })
     
     event.target.reset()
