@@ -1,15 +1,19 @@
 const baseURL = 'http://localhost:3000' 
 const bookSearchURL = `${baseURL}/book_search`
+const titleSearchURL = `${baseURL}/title_search`
+const authorSearchURL = `${baseURL}/author_search`
 const saveBookURL = `${baseURL}/save_book`
 
 const savedBooksButton = document.querySelector('#saved-books-button')
 const logoutButton = document.querySelector('#logout-button')
 const errorMessage = document.querySelector('#error-message')
+const seeSearchFormButton = document.querySelector('#see-search-form')
 const searchForm = document.querySelector('.search-form')
 const bookList = document.querySelector('.book-list')
 
 logoutButton.addEventListener('click', logout)
 savedBooksButton.addEventListener('click', savedBooksPage)
+seeSearchFormButton.addEventListener('click', showSearchForm)
 searchForm.addEventListener('submit', searchBooks)
 
 fetch(`${bookSearchURL}?search="Good Summer Reads 2020"`)
@@ -27,17 +31,25 @@ function savedBooksPage(){
     window.location = 'show.html'
 }
 
+function showSearchForm(){
+    searchForm.classList.remove('hidden')
+    seeSearchFormButton.classList.add('hidden')
+}
+
 function searchBooks(event){
     event.preventDefault()
     const formData = new FormData(event.target)
     const search = formData.get('search')
-  
-    fetch(`${bookSearchURL}?search=${search}`)
-        .then(response => response.json())
-        .then(result => {
-            removeCurrentBookList()
-            renderBooks(result.data.attributes.book_search_results)
-        })
+    const titleSearch = formData.get('title-search')
+    const authorSearch = formData.get('author-search')
+    
+    if (search != ""){
+        sendSearchRequest(bookSearchURL, search)
+    }else if (titleSearch != ""){
+        sendSearchRequest(titleSearchURL, titleSearch)
+    }else if (authorSearch != ""){
+        sendSearchRequest(authorSearchURL, authorSearch)
+    }
 }
 
 function removeCurrentBookList(){
@@ -45,11 +57,14 @@ function removeCurrentBookList(){
     allBookListItems.forEach(item => item.remove())
 }
 
-function sendSearchRequest(url){
-    fetch(url)
+function sendSearchRequest(url, params){
+    fetch(`${url}?search=${params}`)
     .then(response => response.json())
     .then(result => {
-        console.log(result)
+        removeCurrentBookList()
+        searchForm.reset()
+        searchForm.classList.add('hidden')
+        seeSearchFormButton.classList.remove('hidden')
         renderBooks(result.data.attributes.book_search_results)
     })
 }

@@ -123,6 +123,7 @@ nav button {
     width: 150px;
     filter: grayscale(40%);
     opacity: 0.9;
+    cursor: pointer;
 }
 
 .authors {
@@ -151,8 +152,8 @@ nav button {
     width: 850px;
     height: 600px;
     position: fixed;
-    top: 15%; 
-    left: 18%;
+    top: 12%; 
+    left: 20%;
     background-color: hsl(171, 14%, 72%);
     border-radius: 0.2rem;
     opacity: 0.95;

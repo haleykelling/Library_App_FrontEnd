@@ -46,30 +46,38 @@ nav button{
 .search {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 70px;
+    grid-template-rows: 100px;
     grid-template-areas: ". search .";
     align-items: end;
     justify-items: center;
 }
 
-.search-form {
+#see-search-form {
     grid-area: search;
 }
 
-#general-search {
+.search-form {
+    grid-area: search;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.search-form input[type='text'] {
     font-family: 'Raleway', sans-serif;
     font-size: 16px;
-    width: 14rem;
+    width: 15rem;
     color: hsl(309, 17%, 24%);
     background-color: hsl(175, 42%, 99%);
     border: 1px solid hsl(309, 17%, 24%);
     border-radius: 0.2rem;
     padding: 0.3rem;
     padding-left: 0.5rem;
-    margin-right: 0.8rem;
+    margin: 0.3rem 0;
 }
 
-.search-form input[type='submit'], nav button{
+.search-form input[type='submit'], nav button, #see-search-form {
     font-family: 'Raleway', sans-serif;
     font-size: 16px;
     color: hsl(175, 42%, 99%);
@@ -87,6 +95,7 @@ nav button{
     display: flex;
     flex-wrap: wrap;
     margin: 4.2rem;
+    margin-top: 3.5rem;
     justify-content: space-evenly;
 }
 
@@ -123,6 +132,7 @@ nav button{
     width: 180px;
     filter: grayscale(40%);
     opacity: 0.9;
+    cursor: pointer;
 }
 
 .authors {
@@ -151,8 +161,8 @@ nav button{
     width: 850px;
     height: 600px;
     position: fixed;
-    top: 15%; 
-    left: 18%;
+    top: 12%; 
+    left: 19%;
     background-color: hsl(171, 14%, 72%);
     border-radius: 0.2rem;
     opacity: 0.95;
