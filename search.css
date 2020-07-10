@@ -35,7 +35,7 @@ nav {
     grid-area: nav;
     justify-self: end;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin-right: 3rem;
 }
 
@@ -125,6 +125,9 @@ nav button{
     opacity: 0.9;
 }
 
+.authors {
+    text-align: center;
+}
 
 .save-book-button {
     background: none;
