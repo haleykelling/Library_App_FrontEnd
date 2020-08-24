@@ -161,8 +161,8 @@ nav button{
     width: 850px;
     height: 600px;
     position: fixed;
-    top: 12%; 
-    left: 19%;
+    top: 3%; 
+    left: 10%;
     background-color: hsl(171, 14%, 72%);
     border-radius: 0.2rem;
     opacity: 0.95;

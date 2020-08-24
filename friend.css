@@ -29,6 +29,7 @@ h1 {
     letter-spacing: 0.07rem;
     grid-area: head;
     color: hsl(191, 28%, 24%);
+    margin-left: 2rem;
 }
 
 nav {
@@ -152,8 +153,8 @@ nav button {
     width: 850px;
     height: 600px;
     position: fixed;
-    top: 12%; 
-    left: 20%;
+    top: 3%; 
+    left: 12%;
     background-color: hsl(171, 14%, 72%);
     border-radius: 0.2rem;
     opacity: 0.95;

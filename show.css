@@ -29,6 +29,7 @@ h1 {
     letter-spacing: 0.07rem;
     grid-area: head;
     color: hsl(191, 28%, 24%);
+    margin-left: 2rem;
 }
 
 nav {
