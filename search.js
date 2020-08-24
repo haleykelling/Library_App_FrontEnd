@@ -16,7 +16,7 @@ savedBooksButton.addEventListener('click', savedBooksPage)
 seeSearchFormButton.addEventListener('click', showSearchForm)
 searchForm.addEventListener('submit', searchBooks)
 
-fetch(`${bookSearchURL}?search="Good Summer Reads 2020"`)
+fetch(`${bookSearchURL}?search="Good Reads 2020"`)
     .then(response => response.json())
     .then(result => {
         renderBooks(result.data.attributes.book_search_results)
